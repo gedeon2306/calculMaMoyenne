@@ -145,6 +145,7 @@ const goToCalculator = () => {
 .home-page {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 /* Section Hero */
@@ -192,12 +193,22 @@ const goToCalculator = () => {
 }
 
 /* Preview Calculator */
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
 .calculator-preview {
   background: var(--surface-color);
   border-radius: 16px;
   box-shadow: var(--shadow-lg);
   overflow: hidden;
   border: 1px solid var(--border-color);
+  max-width: 400px;
+  width: 100%;
+  min-width: 300px;
 }
 
 .preview-header {
@@ -365,6 +376,10 @@ const goToCalculator = () => {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .home-page {
+    padding: 0 15px;
+  }
+  
   .hero {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -398,6 +413,49 @@ const goToCalculator = () => {
   
   .cta-content h2 {
     font-size: 2rem;
+  }
+  
+  .hero-visual {
+    padding: 10px;
+  }
+  
+  .calculator-preview {
+    max-width: 100%;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .hero-description {
+    font-size: 1rem;
+  }
+  
+  .calculator-preview {
+    border-radius: 12px;
+  }
+  
+  .preview-content {
+    padding: 15px;
+  }
+  
+  .preview-row {
+    padding: 6px 0;
+  }
+  
+  .preview-label {
+    font-size: 0.9rem;
+  }
+  
+  .preview-value {
+    font-size: 0.9rem;
   }
 }
 </style> 

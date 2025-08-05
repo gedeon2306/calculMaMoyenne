@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -23,6 +23,22 @@ const navigateTo = (path: string) => {
 const closeMobileMenu = () => {
   isMobileMenuOpen.value = false
 }
+
+// Fermer le menu au scroll
+const handleScroll = () => {
+  if (isMobileMenuOpen.value) {
+    isMobileMenuOpen.value = false
+  }
+}
+
+// Ajouter/retirer l'écouteur de scroll
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <template>
@@ -49,7 +65,7 @@ const closeMobileMenu = () => {
         </div>
         
         <!-- Bouton hamburger mobile -->
-        <button @click="toggleMobileMenu" class="mobile-menu-toggle">
+        <button @click="toggleMobileMenu" class="mobile-menu-toggle" :class="{ 'active': isMobileMenuOpen }">
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
@@ -164,6 +180,7 @@ const closeMobileMenu = () => {
   cursor: pointer;
   padding: 8px;
   gap: 4px;
+  transition: all 0.3s ease;
 }
 
 .hamburger-line {
@@ -172,6 +189,21 @@ const closeMobileMenu = () => {
   background: var(--text-color);
   border-radius: 2px;
   transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Animation hamburger vers croix */
+.mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
 }
 
 /* Menu mobile */
@@ -284,18 +316,5 @@ const closeMobileMenu = () => {
   .mobile-menu {
     display: none;
   }
-}
-
-/* Animation hamburger */
-.mobile-menu-toggle.active .hamburger-line:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-
-.mobile-menu-toggle.active .hamburger-line:nth-child(2) {
-  opacity: 0;
-}
-
-.mobile-menu-toggle.active .hamburger-line:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -6px);
 }
 </style>
