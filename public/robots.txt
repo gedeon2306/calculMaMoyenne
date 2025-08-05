@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://calculmamoyenne.vercel.app/sitemap.xml
+
+# Optimisations pour le calcul de moyennes
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /.git/
+
+# Permettre l'accès aux ressources importantes
+Allow: /logo.svg
+Allow: /logo-192.png
+Allow: /logo-512.png
+Allow: /manifest.json 
