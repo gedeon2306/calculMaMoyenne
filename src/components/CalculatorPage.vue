@@ -97,18 +97,18 @@ const removeSubject = (index: number) => {
   }
 }
 
-const addCoefficient = () => {
-  // Ajouter une nouvelle colonne de coefficient (logique à implémenter selon les besoins)
-  subjects.value.forEach(subject => {
-    // Pour l'instant, on ajoute juste un coefficient par défaut
-    // Cette fonction peut être étendue selon les besoins spécifiques
-  })
-}
+// const addCoefficient = () => {
+//   // Ajouter une nouvelle colonne de coefficient (logique à implémenter selon les besoins)
+//   subjects.value.forEach(subject => {
+//     // Pour l'instant, on ajoute juste un coefficient par défaut
+//     // Cette fonction peut être étendue selon les besoins spécifiques
+//   })
+// }
 
-const removeCoefficient = (index: number) => {
-  // Logique pour supprimer un coefficient
-  // Pour l'instant, on ne fait rien car les coefficients sont liés aux matières
-}
+// const removeCoefficient = (index: number) => {
+//   // Logique pour supprimer un coefficient
+//   // Pour l'instant, on ne fait rien car les coefficients sont liés aux matières
+// }
 
 const resetAll = () => {
   subjects.value = [
@@ -121,10 +121,10 @@ const resetAll = () => {
   nextSubjectId.value = 5
 }
 
-const validateNumber = (value: string): number => {
-  const num = parseFloat(value)
-  return isNaN(num) ? 0 : Math.max(0, Math.min(20, num))
-}
+// const validateNumber = (value: string): number => {
+//   const num = parseFloat(value)
+//   return isNaN(num) ? 0 : Math.max(0, Math.min(20, num))
+// }
 
 // Watchers pour recalculer automatiquement
 watch(() => settings.value.classPercentage, updateAllCalculations)
