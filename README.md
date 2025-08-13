@@ -11,8 +11,9 @@ CalculMaMoyenne est une **Progressive Web App (PWA)** développée en Vue.js qui
 - ✅ Attribution automatique des mentions
 - ✅ Interface responsive et moderne
 - ✅ Mode sombre/clair
-- ✅ SEO optimisé
-- ✅ Logo personnalisé
+- ✅ SEO optimisé (meta tags, Open Graph, Twitter Card, sitemap, robots)
+- ✅ PWA installable (popup d’installation + bouton « Installer »)
+- ✅ Offline basique via Service Worker
 
 ## ✨ Fonctionnalités
 
@@ -49,52 +50,53 @@ CalculMaMoyenne est une **Progressive Web App (PWA)** développée en Vue.js qui
 
 ### 🎨 Interface utilisateur
 - **Mode clair/sombre** avec toggle dans la navbar
-- **Design responsive** (mobile, tablette, desktop)
-- **Animations douces** et transitions
-- **Validation en temps réel** des saisies
-- **Interface intuitive** et accessible
+- **Menu hamburger** sur mobile (fermeture auto au scroll/clic navigation)
+- **Animation** hamburger ↔ croix
+- **Animations** et transitions douces
+
+### 📲 PWA & Installation
+- **Popup d’installation** automatique (événement `beforeinstallprompt`)
+- **Bouton "Installer"** dans la navbar et le menu mobile
+- **Service Worker** pour cache offline basique
+- **Icônes PWA** au format PNG + SVG, support "maskable"
 
 ## 🛠️ Technologies utilisées
 
 | Composant         | Technologie                 |
 |-------------------|-----------------------------|
 | Framework         | Vue.js 3 (Composition API)  |
-| Language          | TypeScript                  |
+| Langage           | TypeScript                  |
 | Routing           | Vue Router 4                |
 | Build Tool        | Vite                        |
 | Styling           | CSS pur avec variables CSS  |
 | State Management  | Vue reactive refs           |
-| PWA               | Manifest + Service Worker   |
-| SEO               | Meta tags optimisés         |
+| PWA               | Service Worker + Manifest   |
+| SEO               | Meta tags, robots.txt, sitemap.xml |
 
 ## 📦 Installation et développement
 
 ### Prérequis
-- Node.js (version 16 ou supérieure)
+- Node.js (16+ recommandé)
 - npm ou yarn
 
 ### Installation
 ```bash
 # Cloner le projet
-git clone [https://github.com/gedeon2306/calculMaMoyenne.git]
+git clone https://github.com/gedeon2306/calculMaMoyenne.git
 cd calculmamoyenne
 
 # Installer les dépendances
 npm install
 
-# Lancer le serveur de développement
-npm run dev
-```
+# (optionnel) Si les icônes PWA ne s'affichent pas sur mobile,
+# convertir les PNG (si postinstall n'a pas tourné)
+node scripts/fix-icons.mjs
 
-### Scripts disponibles
-```bash
-# Développement
+# Lancer en développement (le popup PWA peut ne pas apparaître en dev)
 npm run dev
 
-# Build pour production
+# Build + preview (recommandé pour tester la PWA et le popup d’installation)
 npm run build
-
-# Prévisualiser le build
 npm run preview
 ```
 
@@ -102,136 +104,127 @@ npm run preview
 
 ```
 calculmamoyenne/
+├── public/
+│   ├── logo.svg                  # Logo SVG principal
+│   ├── logo-192.png              # Logo PNG 192x192 (favicon/PWA)
+│   ├── logo-512.png              # Logo PNG 512x512 (réseaux sociaux/PWA)
+│   ├── manifest.json             # Manifeste PWA (maskable icons)
+│   ├── robots.txt                # Directives pour les crawlers
+│   ├── sitemap.xml               # Sitemap pour l’indexation
+│   └── sw.js                     # Service Worker (offline/cache)
+├── scripts/
+│   └── fix-icons.mjs             # Conversion PNG data URI -> binaire
 ├── src/
 │   ├── components/
 │   │   ├── HomePage.vue          # Page d'accueil avec présentation
 │   │   └── CalculatorPage.vue    # Page de calcul avec tableau interactif
-│   ├── assets/                   # Ressources statiques
-│   ├── App.vue                   # Composant racine avec navigation
-│   ├── main.ts                   # Point d'entrée avec configuration router
+│   ├── App.vue                   # Layout + navbar + popup d’installation
+│   ├── main.ts                   # Router + enregistrement Service Worker
 │   └── style.css                 # Styles globaux et variables CSS
-├── public/
-│   ├── logo.svg                  # Logo SVG principal
-│   ├── logo-192.png              # Logo PNG 192x192 (favicon, PWA)
-│   ├── logo-512.png              # Logo PNG 512x512 (réseaux sociaux)
-│   ├── manifest.json             # Manifeste PWA
-│   └── vite.svg                  # Logo Vite (ancien)
-├── index.html                    # Template HTML avec SEO optimisé
-├── package.json                  # Dépendances et scripts
+├── index.html                    # SEO (meta/OG/Twitter) + Schema.org
+├── package.json                  # Dépendances + scripts (postinstall)
 ├── vite.config.ts                # Configuration Vite optimisée
-├── tsconfig.json                 # Configuration TypeScript
-├── tsconfig.app.json             # Config TypeScript pour l'app
-├── tsconfig.node.json            # Config TypeScript pour Node
-├── .gitignore                    # Fichiers ignorés par Git
-└── README.md                     # Documentation complète
+├── tsconfig.json                 # Config TypeScript racine
+├── tsconfig.app.json             # Config TypeScript app
+├── tsconfig.node.json            # Config TypeScript node
+└── README.md                     # Documentation
 ```
 
-## 🚀 Déploiement PWA
+## 🚀 Déploiement
 
-### Configuration PWA
-L'application est **PWA ready** avec :
-- ✅ **Manifeste** : `public/manifest.json`
-- ✅ **Icônes** : SVG + PNG (192x192, 512x512)
-- ✅ **Meta tags** : Open Graph, Twitter Card
-- ✅ **SEO optimisé** : Description, keywords, canonical
+### Vercel
+1. Importer le repo dans Vercel
+2. Framework Preset: **Vite**
+3. Build Command: `npm run build`
+4. Output Directory: `dist`
+5. Variables: aucune requise
 
-### Build pour production
+### Netlify
+1. New site from Git > sélectionner le repo
+2. Build command: `npm run build`
+3. Publish directory: `dist`
+4. Rediriger toutes les routes (SPA): créer `_redirects` dans `dist` avec `/* /index.html 200`
+
+### GitHub Pages
+1. `npm run build`
+2. Pousser le dossier `dist` vers la branche `gh-pages`
+3. Activer GitHub Pages sur `gh-pages`
+4. SPA fallback: ajouter un `404.html` copié de `index.html`
+
+## 📸 Captures d’écran
+- À ajouter dans un dossier `docs/screenshots/` et référencer ici (exemples):
+  - `docs/screenshots/home-light.png`
+  - `docs/screenshots/calculator-dark.png`
+
+## 🔎 Audit Lighthouse
 ```bash
-npm run build
+# Avec Chrome DevTools > Lighthouse
+# Vérifiez: Performance, Accessibility, Best Practices, SEO, PWA
 ```
+Conseils:
+- Compresser les images
+- Vérifier `manifest.json` et Service Worker actifs
+- Vérifier le contraste (mode sombre)
 
-Le dossier `dist/` contiendra les fichiers optimisés pour la production.
+## 🚀 PWA / Installation sur appareil
 
-## 🎯 Fonctionnalités techniques
+### Android (Chrome)
+- Ouvrez l’app buildée (`npm run preview` ou prod)
+- Le **popup d’installation** peut apparaître automatiquement
+- Sinon, utilisez le **bouton "Installer"** (navbar/menu mobile)
 
-### Calculs
-- **Validation des entrées** : uniquement nombres entre 0 et 20
-- **Calculs en temps réel** avec watchers Vue.js
-- **Précision décimale** : 2 chiffres après la virgule
-- **Gestion des erreurs** : validation des pourcentages
+### iOS (Safari)
+- Pas de popup d’installation
+- Partager > **Sur l’écran d’accueil**
 
-### Performance
-- **Lazy loading** des composants
-- **Optimisation des re-renders** avec computed properties
-- **CSS optimisé** avec variables CSS pour les thèmes
-- **Responsive design** avec media queries
-- **Preconnect** pour les ressources externes
+### Notes
+- Le popup n’apparaît pas si l’app est déjà installée
+- Plus fiable en build/preview qu’en dev
 
-### Accessibilité
-- **Navigation au clavier** supportée
-- **Contraste adapté** pour les modes clair/sombre
-- **Labels appropriés** pour les inputs
-- **Messages d'erreur** clairs et informatifs
+## 🔍 SEO
+- Meta tags (title, description, keywords)
+- Open Graph & Twitter Card
+- Canonical URL
+- `public/robots.txt` et `public/sitemap.xml`
 
-### SEO
-- **Meta tags** optimisés pour le référencement
-- **Open Graph** pour les réseaux sociaux
-- **Twitter Card** pour Twitter
-- **Canonical URL** pour éviter le contenu dupliqué
-- **Keywords** ciblées pour le calcul de moyennes
+## 🧪 Dépannage
 
-## 📱 Compatibilité
+### Le popup d’installation ne s’affiche pas
+- `npm run build && npm run preview`
+- DevTools > Application > Service Workers: "This page is controlled by a service worker"
+- Onglet Manifest: icônes 192/512 valides
+- Désinstaller l’app si déjà installée
+- Cliquer sur le bouton **Installer** (navbar/menu)
 
-- **Navigateurs** : Chrome, Firefox, Safari, Edge (versions récentes)
-- **Appareils** : Desktop, tablette, mobile
-- **Systèmes** : Windows, macOS, Linux, iOS, Android
-- **PWA** : Installation possible sur tous les appareils
+### Le logo n’apparaît pas après installation
+- Exécuter: `node scripts/fix-icons.mjs`
+- Rebuild: `npm run build`
+- Désinstaller/réinstaller l’app
 
-## 🔧 Personnalisation
-
-### Thèmes
-Les couleurs et styles sont définis dans `src/style.css` avec des variables CSS :
-```css
-:root {
-  --primary-color: #667eea;
-  --secondary-color: #764ba2;
-  --background-color: #ffffff;
-  --text-color: #1a202c;
-  /* ... autres variables */
-}
-```
-
-### Logo
-Le logo est disponible en plusieurs formats :
-- **SVG** : `public/logo.svg` (favicon principal)
-- **PNG 192x192** : `public/logo-192.png` (PWA, favicon)
-- **PNG 512x512** : `public/logo-512.png` (réseaux sociaux)
-
-### Ajout de fonctionnalités
-Pour ajouter de nouvelles fonctionnalités :
-1. Créer un nouveau composant dans `src/components/`
-2. Ajouter la route dans `src/main.ts`
-3. Mettre à jour la navigation dans `src/App.vue`
+### Scroll horizontal / responsive
+- Corrigé: `overflow-x: hidden`, `hero-visual` responsive
 
 ## 🎨 Design System
 
 ### Couleurs
-- **Primaire** : #667eea (bleu-violet)
-- **Secondaire** : #764ba2 (violet)
-- **Succès** : #48bb78 (vert)
-- **Avertissement** : #ed8936 (orange)
-- **Erreur** : #f56565 (rouge)
+- Primaire: `#667eea`
+- Secondaire: `#764ba2`
+- Succès: `#48bb78`
+- Avertissement: `#ed8936`
+- Erreur: `#f56565`
 
 ### Typographie
-- **Famille** : Segoe UI, Tahoma, Geneva, Verdana, sans-serif
-- **Tailles** : Responsive avec rem
-- **Poids** : 400 (normal), 600 (semi-bold), 700 (bold), 800 (extra-bold)
+- Segoe UI, Tahoma, Geneva, Verdana, sans-serif
 
 ## 🤝 Contribution
-
-1. Fork le projet
-2. Créer une branche feature (`git checkout -b feature/AmazingFeature`)
-3. Commit les changements (`git commit -m 'Add some AmazingFeature'`)
-4. Push vers la branche (`git push origin feature/AmazingFeature`)
-5. Ouvrir une Pull Request
+1. Fork du projet
+2. Branche feature (`git checkout -b feature/AmazingFeature`)
+3. Commits (`git commit -m 'Add some AmazingFeature'`)
+4. Push (`git push origin feature/AmazingFeature`)
+5. Pull Request
 
 ## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-
-## 👨‍💻 Auteur
-
-Développé avec ❤️ pour simplifier le calcul des moyennes scolaires.
+Ce projet est sous licence MIT.
 
 ---
 

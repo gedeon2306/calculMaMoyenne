@@ -37,7 +37,6 @@ const onAppInstalled = () => {
 const installApp = async () => {
   if (!deferredPrompt.value) return
   deferredPrompt.value.prompt()
-  const { outcome } = await deferredPrompt.value.userChoice
   deferredPrompt.value = null
   isInstallPromptVisible.value = false
 }
