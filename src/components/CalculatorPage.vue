@@ -210,7 +210,7 @@ updateAllCalculations()
               <th>Note de classe</th>
               <th>Note d'examen</th>
               <th>Coefficient</th>
-              <th>Note finale</th>
+              <th>Note matière</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -308,12 +308,15 @@ updateAllCalculations()
       <h2>Comment ça marche ?</h2>
       <div class="info-content">
         <p>
-          <strong>Formule de calcul :</strong><br>
-          Note finale = (Note de classe × %classe + Note d'examen × %examen) × Coefficient
+          <strong>Formules de calcul :</strong><br>
+          Note matière = (Note de classe × %classe + Note d'examen × %examen) <br>
+        </p>
+        <p>
+          Note finale = Note matière × Coefficient
         </p>
         <p>
           <strong>Moyenne générale :</strong><br>
-          Moyenne = Somme des (Notes finales × Coefficients) ÷ Total des coefficients
+          Moyenne = Somme des (Notes finales) ÷ Total des coefficients
         </p>
         <div class="mention-guide">
           <h3>Guide des mentions :</h3>

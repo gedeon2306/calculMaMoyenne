@@ -21,3 +21,10 @@ const router = createRouter({
 const app = createApp(App)
 app.use(router)
 app.mount('#app')
+
+// Enregistrement du Service Worker pour PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {})
+  })
+}

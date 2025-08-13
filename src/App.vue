@@ -1,10 +1,50 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const isDarkMode = ref(false)
 const isMobileMenuOpen = ref(false)
+
+// PWA install prompt
+const deferredPrompt = ref<any | null>(null)
+const isInstallPromptVisible = ref(false)
+
+const isStandalone = computed(() => {
+  // iOS Safari uses navigator.standalone, others use display-mode
+  const isIosStandalone = // @ts-ignore
+    typeof window !== 'undefined' && (window.navigator as any).standalone === true
+  const isDisplayModeStandalone =
+    typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(display-mode: standalone)').matches
+  return isIosStandalone || isDisplayModeStandalone
+})
+
+const canInstall = computed(() => !!deferredPrompt.value && !isStandalone.value)
+
+const onBeforeInstallPrompt = (event: any) => {
+  event.preventDefault()
+  deferredPrompt.value = event
+  if (!isStandalone.value) {
+    isInstallPromptVisible.value = true
+  }
+}
+
+const onAppInstalled = () => {
+  deferredPrompt.value = null
+  isInstallPromptVisible.value = false
+}
+
+const installApp = async () => {
+  if (!deferredPrompt.value) return
+  deferredPrompt.value.prompt()
+  const { outcome } = await deferredPrompt.value.userChoice
+  deferredPrompt.value = null
+  isInstallPromptVisible.value = false
+}
+
+const dismissInstall = () => {
+  isInstallPromptVisible.value = false
+}
 
 const toggleDarkMode = () => {
   isDarkMode.value = !isDarkMode.value
@@ -31,13 +71,17 @@ const handleScroll = () => {
   }
 }
 
-// Ajouter/retirer l'écouteur de scroll
+// Mount/unmount
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
+  window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt)
+  window.addEventListener('appinstalled', onAppInstalled)
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('beforeinstallprompt', onBeforeInstallPrompt)
+  window.removeEventListener('appinstalled', onAppInstalled)
 })
 </script>
 
@@ -58,6 +102,7 @@ onUnmounted(() => {
         
         <!-- Actions desktop -->
         <div class="nav-actions desktop-menu">
+          <button v-if="canInstall" @click="installApp" class="install-btn">Installer</button>
           <button @click="toggleDarkMode" class="theme-toggle">
             <span v-if="!isDarkMode">🌙</span>
             <span v-else>☀️</span>
@@ -78,6 +123,7 @@ onUnmounted(() => {
           <button @click="navigateTo('/')" class="mobile-nav-link">Accueil</button>
           <button @click="navigateTo('/calculator')" class="mobile-nav-link">Calculateur</button>
           <div class="mobile-actions">
+            <button v-if="canInstall" @click="installApp" class="mobile-theme-toggle">⬇️ Installer l'app</button>
             <button @click="toggleDarkMode" class="mobile-theme-toggle">
               <span v-if="!isDarkMode">🌙 Mode sombre</span>
               <span v-else>☀️ Mode clair</span>
@@ -98,6 +144,22 @@ onUnmounted(() => {
     <main class="main-content">
       <router-view />
     </main>
+
+    <!-- Popup d'installation PWA -->
+    <div v-if="isInstallPromptVisible && !isStandalone" class="install-popup">
+      <div class="install-card">
+        <div class="install-content">
+          <div class="install-text">
+            <h3>Installer CalculMaMoyenne</h3>
+            <p>Accédez plus vite à l'application, même hors-ligne.</p>
+          </div>
+          <div class="install-actions">
+            <button class="btn btn-secondary" @click="dismissInstall">Plus tard</button>
+            <button class="btn btn-primary" @click="installApp">Installer</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -162,6 +224,21 @@ onUnmounted(() => {
 .theme-toggle:hover {
   background: var(--hover-color);
   transform: scale(1.1);
+}
+
+.install-btn {
+  background: var(--surface-color);
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.install-btn:hover {
+  background: var(--hover-color);
 }
 
 .main-content {
@@ -285,6 +362,50 @@ onUnmounted(() => {
   z-index: 998;
 }
 
+/* Install popup */
+.install-popup {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 1100;
+  padding: 0 15px;
+}
+
+.install-card {
+  max-width: 640px;
+  width: 100%;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+}
+
+.install-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+}
+
+.install-text h3 {
+  margin: 0 0 6px 0;
+  color: var(--text-color);
+}
+
+.install-text p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.install-actions {
+  display: flex;
+  gap: 10px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .nav-container {
@@ -305,6 +426,15 @@ onUnmounted(() => {
   
   .main-content {
     padding: 15px;
+  }
+  
+  .install-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .install-actions {
+    justify-content: flex-end;
   }
 }
 
