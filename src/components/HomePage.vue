@@ -1,5 +1,18 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import {
+  ArrowRight,
+  BarChart3,
+  Scale,
+  FileText,
+  Trophy,
+  Moon,
+  Smartphone,
+  Zap,
+  Target,
+  Lightbulb,
+  Lock,
+} from 'lucide-vue-next'
 
 const router = useRouter()
 
@@ -13,6 +26,9 @@ const goToCalculator = () => {
     <!-- Section Hero -->
     <section class="hero">
       <div class="hero-content">
+        <div class="hero-badge">
+          <img src="/icon.png" alt="" class="hero-icon" />
+        </div>
         <h1 class="hero-title">
           CalculMaMoyenne
         </h1>
@@ -20,11 +36,11 @@ const goToCalculator = () => {
           Calculez vos moyennes scolaires et universitaires de manière simple et intuitive
         </p>
         <p class="hero-description">
-          Une application web moderne pour calculer vos moyennes avec coefficients, 
-          pourcentages de notes et obtenir vos mentions automatiquement.
+          Une application web épurée pour calculer vos moyennes avec coefficients, 
+          pourcentages de notes et mentions automatiques.
         </p>
         <button @click="goToCalculator" class="btn btn-primary hero-btn">
-          🚀 Commencer
+          Commencer <ArrowRight :size="18" />
         </button>
       </div>
       <div class="hero-visual">
@@ -61,32 +77,32 @@ const goToCalculator = () => {
       <h2 class="section-title">Fonctionnalités</h2>
       <div class="features-grid">
         <div class="feature-card card">
-          <div class="feature-icon">📊</div>
+          <div class="feature-icon"><BarChart3 :size="28" stroke-width="1.5" /></div>
           <h3>Calcul en temps réel</h3>
           <p>Vos moyennes se calculent automatiquement à chaque modification de note</p>
         </div>
         <div class="feature-card card">
-          <div class="feature-icon">⚖️</div>
+          <div class="feature-icon"><Scale :size="28" stroke-width="1.5" /></div>
           <h3>Gestion des coefficients</h3>
           <p>Attribuez des coefficients différents à chaque matière selon leur importance</p>
         </div>
         <div class="feature-card card">
-          <div class="feature-icon">📝</div>
+          <div class="feature-icon"><FileText :size="28" stroke-width="1.5" /></div>
           <h3>Notes de classe et examen</h3>
           <p>Distinguer les notes de classe et d'examen avec des pourcentages personnalisables</p>
         </div>
         <div class="feature-card card">
-          <div class="feature-icon">🏆</div>
+          <div class="feature-icon"><Trophy :size="28" stroke-width="1.5" /></div>
           <h3>Mentions automatiques</h3>
           <p>Obtenez automatiquement votre mention selon votre moyenne générale</p>
         </div>
         <div class="feature-card card">
-          <div class="feature-icon">🌙</div>
+          <div class="feature-icon"><Moon :size="28" stroke-width="1.5" /></div>
           <h3>Mode sombre</h3>
           <p>Interface adaptée à vos préférences avec le mode clair et sombre</p>
         </div>
         <div class="feature-card card">
-          <div class="feature-icon">📱</div>
+          <div class="feature-icon"><Smartphone :size="28" stroke-width="1.5" /></div>
           <h3>Responsive design</h3>
           <p>Utilisez l'application sur tous vos appareils : mobile, tablette, desktop</p>
         </div>
@@ -98,28 +114,28 @@ const goToCalculator = () => {
       <h2 class="section-title">Pourquoi choisir CalculMaMoyenne ?</h2>
       <div class="advantages-grid">
         <div class="advantage-item">
-          <div class="advantage-icon">⚡</div>
+          <div class="advantage-icon"><Zap :size="24" stroke-width="1.5" /></div>
           <div class="advantage-content">
             <h3>Rapide et efficace</h3>
             <p>Plus besoin de calculs manuels fastidieux, tout est automatisé</p>
           </div>
         </div>
         <div class="advantage-item">
-          <div class="advantage-icon">🎯</div>
+          <div class="advantage-icon"><Target :size="24" stroke-width="1.5" /></div>
           <div class="advantage-content">
             <h3>Précis et fiable</h3>
             <p>Calculs exacts selon les règles académiques standard</p>
           </div>
         </div>
         <div class="advantage-item">
-          <div class="advantage-icon">💡</div>
+          <div class="advantage-icon"><Lightbulb :size="24" stroke-width="1.5" /></div>
           <div class="advantage-content">
             <h3>Intuitif</h3>
             <p>Interface simple et claire, accessible à tous les niveaux</p>
           </div>
         </div>
         <div class="advantage-item">
-          <div class="advantage-icon">🔒</div>
+          <div class="advantage-icon"><Lock :size="24" stroke-width="1.5" /></div>
           <div class="advantage-content">
             <h3>Privé et sécurisé</h3>
             <p>Vos données restent sur votre appareil, aucune information n'est envoyée</p>
@@ -134,7 +150,7 @@ const goToCalculator = () => {
         <h2>Prêt à calculer vos moyennes ?</h2>
         <p>Commencez dès maintenant et obtenez vos résultats instantanément</p>
         <button @click="goToCalculator" class="btn btn-primary">
-          🚀 Commencer le calcul
+          Commencer le calcul <ArrowRight :size="18" />
         </button>
       </div>
     </section>
@@ -162,15 +178,23 @@ const goToCalculator = () => {
   max-width: 500px;
 }
 
+.hero-badge {
+  margin-bottom: 24px;
+}
+
+.hero-icon {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
 .hero-title {
-  font-size: 3.5rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 20px;
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 16px;
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .hero-subtitle {
@@ -213,16 +237,17 @@ const goToCalculator = () => {
 
 .preview-header {
   background: var(--primary-color);
-  padding: 12px 20px;
+  padding: 14px 20px;
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .preview-dot {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .preview-content {
@@ -247,7 +272,7 @@ const goToCalculator = () => {
 }
 
 .preview-value {
-  color: var(--primary-color);
+  color: var(--text-color);
   font-weight: 600;
 }
 
@@ -257,7 +282,7 @@ const goToCalculator = () => {
   align-items: center;
   padding: 12px 0;
   margin-top: 12px;
-  border-top: 2px solid var(--primary-color);
+  border-top: 2px solid var(--border-color);
 }
 
 .preview-result-label {
@@ -297,8 +322,8 @@ const goToCalculator = () => {
 }
 
 .feature-icon {
-  font-size: 3rem;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  color: var(--primary-color);
 }
 
 .feature-card h3 {
@@ -336,8 +361,8 @@ const goToCalculator = () => {
 }
 
 .advantage-icon {
-  font-size: 2.5rem;
   flex-shrink: 0;
+  color: var(--primary-color);
 }
 
 .advantage-content h3 {
@@ -408,6 +433,7 @@ const goToCalculator = () => {
   
   .advantage-item {
     flex-direction: column;
+    align-items: center;
     text-align: center;
   }
   

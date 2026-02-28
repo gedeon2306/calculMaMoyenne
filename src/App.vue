@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { Menu, X, Sun, Moon, Download } from 'lucide-vue-next'
 
 const router = useRouter()
 const isDarkMode = ref(false)
@@ -89,9 +90,10 @@ onUnmounted(() => {
     <!-- Navbar -->
     <nav class="navbar">
       <div class="nav-container">
-        <div class="nav-brand">
-          <h1>CalculMaMoyenne</h1>
-        </div>
+        <router-link to="/" class="nav-brand">
+          <img src="/icon.png" alt="CalculMaMoyenne" class="nav-logo" />
+          <span class="nav-brand-text">CalculMaMoyenne</span>
+        </router-link>
         
         <!-- Menu desktop -->
         <div class="nav-links desktop-menu">
@@ -101,18 +103,19 @@ onUnmounted(() => {
         
         <!-- Actions desktop -->
         <div class="nav-actions desktop-menu">
-          <button v-if="canInstall" @click="installApp" class="install-btn">Installer</button>
-          <button @click="toggleDarkMode" class="theme-toggle">
-            <span v-if="!isDarkMode">🌙</span>
-            <span v-else>☀️</span>
+          <button v-if="canInstall" @click="installApp" class="install-btn">
+            <Download :size="18" /> Installer
+          </button>
+          <button @click="toggleDarkMode" class="theme-toggle" :aria-label="isDarkMode ? 'Mode clair' : 'Mode sombre'">
+            <Moon v-if="!isDarkMode" :size="20" />
+            <Sun v-else :size="20" />
           </button>
         </div>
         
         <!-- Bouton hamburger mobile -->
-        <button @click="toggleMobileMenu" class="mobile-menu-toggle" :class="{ 'active': isMobileMenuOpen }">
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
+        <button @click="toggleMobileMenu" class="mobile-menu-toggle" aria-label="Menu">
+          <X v-if="isMobileMenuOpen" :size="24" />
+          <Menu v-else :size="24" />
         </button>
       </div>
       
@@ -122,10 +125,12 @@ onUnmounted(() => {
           <button @click="navigateTo('/')" class="mobile-nav-link">Accueil</button>
           <button @click="navigateTo('/calculator')" class="mobile-nav-link">Calculateur</button>
           <div class="mobile-actions">
-            <button v-if="canInstall" @click="installApp" class="mobile-theme-toggle">⬇️ Installer l'app</button>
+            <button v-if="canInstall" @click="installApp" class="mobile-theme-toggle">
+              <Download :size="18" /> Installer l'app
+            </button>
             <button @click="toggleDarkMode" class="mobile-theme-toggle">
-              <span v-if="!isDarkMode">🌙 Mode sombre</span>
-              <span v-else>☀️ Mode clair</span>
+              <template v-if="!isDarkMode"><Moon :size="18" /> Mode sombre</template>
+              <template v-else><Sun :size="18" /> Mode clair</template>
             </button>
           </div>
         </div>
@@ -164,8 +169,8 @@ onUnmounted(() => {
 
 <style scoped>
 .navbar {
-  background: var(--primary-color);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -181,11 +186,22 @@ onUnmounted(() => {
   height: 70px;
 }
 
-.nav-brand h1 {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 700;
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
   color: var(--text-color);
+}
+.nav-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+.nav-brand-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .nav-links {
@@ -257,29 +273,6 @@ onUnmounted(() => {
   padding: 8px;
   gap: 4px;
   transition: all 0.3s ease;
-}
-
-.hamburger-line {
-  width: 25px;
-  height: 3px;
-  background: var(--text-color);
-  border-radius: 2px;
-  transition: all 0.3s ease;
-  transform-origin: center;
-}
-
-/* Animation hamburger vers croix */
-.mobile-menu-toggle.active .hamburger-line:nth-child(1) {
-  transform: rotate(45deg) translate(6px, 6px);
-}
-
-.mobile-menu-toggle.active .hamburger-line:nth-child(2) {
-  opacity: 0;
-  transform: scale(0);
-}
-
-.mobile-menu-toggle.active .hamburger-line:nth-child(3) {
-  transform: rotate(-45deg) translate(6px, -6px);
 }
 
 /* Menu mobile */
@@ -411,8 +404,8 @@ onUnmounted(() => {
     padding: 0 15px;
   }
   
-  .nav-brand h1 {
-    font-size: 1.2rem;
+  .nav-brand-text {
+    font-size: 1.1rem;
   }
   
   .desktop-menu {

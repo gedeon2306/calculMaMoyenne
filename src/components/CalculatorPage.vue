@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
+import { Plus, RotateCcw, Trash2, AlertTriangle, Check } from 'lucide-vue-next'
 
 // Types
 interface Subject {
@@ -180,10 +181,10 @@ updateAllCalculations()
       </div>
       <div class="percentage-validation">
         <span v-if="settings.classPercentage + settings.examPercentage !== 100" class="error-text">
-          ⚠️ La somme des pourcentages doit être égale à 100%
+          <AlertTriangle :size="16" /> La somme des pourcentages doit être égale à 100%
         </span>
         <span v-else class="success-text">
-          ✅ Pourcentages valides
+          <Check :size="16" /> Pourcentages valides
         </span>
       </div>
     </div>
@@ -194,10 +195,10 @@ updateAllCalculations()
         <h2>Notes et Coefficients</h2>
         <div class="table-actions">
           <button @click="addSubject" class="btn btn-secondary">
-            ➕ Ajouter une matière
+            <Plus :size="18" /> Ajouter une matière
           </button>
           <button @click="resetAll" class="btn btn-secondary">
-            🔄 Reset
+            <RotateCcw :size="18" /> Reset
           </button>
         </div>
       </div>
@@ -266,8 +267,9 @@ updateAllCalculations()
                   @click="removeSubject(index)"
                   class="btn-remove"
                   :disabled="subjects.length <= 1"
+                  aria-label="Supprimer"
                 >
-                  🗑️
+                  <Trash2 :size="16" />
                 </button>
               </td>
             </tr>
@@ -384,6 +386,10 @@ updateAllCalculations()
 .percentage-validation {
   text-align: center;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .error-text {
@@ -505,8 +511,8 @@ updateAllCalculations()
 
 .result-item.main-result {
   border-color: var(--primary-color);
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
+  background: var(--primary-color);
+  color: var(--navy, #2C3E50);
 }
 
 .result-item h3 {

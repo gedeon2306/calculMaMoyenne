@@ -1,39 +1,59 @@
-/* Variables CSS pour le thème */
+/* Palette : bleu icon #4BC0F0, navy #2C3E50 — vintage, épuré, sans dégradés */
 :root {
-  /* Couleurs du thème clair */
-  --primary-color: #667eea;
-  --secondary-color: #764ba2;
-  --background-color: #ffffff;
-  --surface-color: #f8fafc;
-  --text-color: #1a202c;
-  --text-secondary: #4a5568;
-  --border-color: #e2e8f0;
-  --hover-color: rgba(102, 126, 234, 0.1);
-  --success-color: #48bb78;
-  --warning-color: #ed8936;
-  --error-color: #f56565;
-  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --primary: #4BC0F0;
+  --primary-dark: #3aa8d4;
+  --navy: #2C3E50;
+  --background: #fafbfc;
+  --surface: #ffffff;
+  --text: #2C3E50;
+  --text-secondary: #5a6c7d;
+  --border: #e4e8ec;
+  --hover: rgba(75, 192, 240, 0.12);
+  --success: #2d8a5e;
+  --warning: #c4760f;
+  --error: #c23d3d;
+  --shadow: 0 1px 3px rgba(44, 62, 80, 0.08);
+  --shadow-lg: 0 4px 12px rgba(44, 62, 80, 0.1);
+  /* Aliases pour composants */
+  --primary-color: var(--primary);
+  --secondary-color: var(--primary-dark);
+  --background-color: var(--background);
+  --surface-color: var(--surface);
+  --text-color: var(--text);
+  --border-color: var(--border);
+  --hover-color: var(--hover);
+  --success-color: var(--success);
+  --warning-color: var(--warning);
+  --error-color: var(--error);
 }
 
-/* Variables CSS pour le thème sombre */
 .dark-mode {
-  --primary-color: #667eea;
-  --secondary-color: #764ba2;
-  --background-color: #1a202c;
-  --surface-color: #2d3748;
-  --text-color: #f7fafc;
-  --text-secondary: #a0aec0;
-  --border-color: #4a5568;
-  --hover-color: rgba(102, 126, 234, 0.2);
-  --success-color: #48bb78;
-  --warning-color: #ed8936;
-  --error-color: #f56565;
-  --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
+  --primary: #4BC0F0;
+  --primary-dark: #5fd1f7;
+  --navy: #1a2634;
+  --background: #1a2634;
+  --surface: #243447;
+  --text: #f0f4f8;
+  --text-secondary: #a8b8c8;
+  --border: #354a5f;
+  --hover: rgba(75, 192, 240, 0.15);
+  --success: #3ba372;
+  --warning: #e09b2a;
+  --error: #e05c5c;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --primary-color: var(--primary);
+  --secondary-color: var(--primary-dark);
+  --background-color: var(--background);
+  --surface-color: var(--surface);
+  --text-color: var(--text);
+  --border-color: var(--border);
+  --hover-color: var(--hover);
+  --success-color: var(--success);
+  --warning-color: var(--warning);
+  --error-color: var(--error);
 }
 
-/* Reset et styles de base */
 * {
   margin: 0;
   padding: 0;
@@ -46,11 +66,11 @@ html, body {
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--background-color);
-  color: var(--text-color);
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background-color: var(--background);
+  color: var(--text);
   line-height: 1.6;
-  transition: all 0.3s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
   min-height: 100vh;
 }
 
@@ -59,85 +79,85 @@ body {
   overflow-x: hidden;
 }
 
-/* Styles pour les boutons */
+/* Boutons — couleurs plates */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 12px 24px;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, transform 0.15s ease;
   text-decoration: none;
   gap: 8px;
+  font-family: inherit;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
+  background: var(--primary);
+  color: var(--navy);
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  background: var(--primary-dark);
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
-  background: var(--surface-color);
-  color: var(--text-color);
-  border: 2px solid var(--border-color);
+  background: var(--surface);
+  color: var(--text);
+  border: 2px solid var(--border);
 }
 
 .btn-secondary:hover {
-  background: var(--hover-color);
-  transform: translateY(-2px);
+  background: var(--hover);
+  border-color: var(--primary);
 }
 
-/* Styles pour les cartes */
+/* Cartes — épurées */
 .card {
-  background: var(--surface-color);
-  border-radius: 12px;
+  background: var(--surface);
+  border-radius: 8px;
   padding: 24px;
   box-shadow: var(--shadow);
-  border: 1px solid var(--border-color);
-  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+  transition: box-shadow 0.2s ease;
 }
 
 .card:hover {
-  transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
 }
 
-/* Styles pour les inputs */
+/* Inputs */
 .input {
   width: 100%;
   padding: 12px 16px;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
   font-size: 1rem;
-  background: var(--background-color);
-  color: var(--text-color);
-  transition: all 0.3s ease;
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color 0.2s ease;
+  font-family: inherit;
 }
 
 .input:focus {
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: var(--primary);
 }
 
 .input:invalid {
-  border-color: var(--error-color);
+  border-color: var(--error);
 }
 
-/* Styles pour les tableaux */
+/* Tableaux */
 .table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--surface-color);
+  background: var(--surface);
   border-radius: 8px;
   overflow: hidden;
   box-shadow: var(--shadow);
@@ -147,31 +167,23 @@ body {
 .table td {
   padding: 12px 16px;
   text-align: left;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
 }
 
 .table th {
-  background: var(--primary-color);
-  color: white;
+  background: var(--navy);
+  color: var(--surface);
   font-weight: 600;
 }
 
 .table tr:hover {
-  background: var(--hover-color);
+  background: var(--hover);
 }
 
 /* Utilitaires */
-.text-center {
-  text-align: center;
-}
-
-.text-left {
-  text-align: left;
-}
-
-.text-right {
-  text-align: right;
-}
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
 
 .mb-1 { margin-bottom: 0.25rem; }
 .mb-2 { margin-bottom: 0.5rem; }
@@ -191,33 +203,12 @@ body {
 .p-4 { padding: 1.5rem; }
 .p-5 { padding: 3rem; }
 
-/* Responsive */
 @media (max-width: 768px) {
-  .card {
-    padding: 16px;
-  }
-  
-  .btn {
-    padding: 10px 20px;
-    font-size: 0.9rem;
-  }
-  
-  .table {
-    font-size: 0.9rem;
-  }
-  
-  .table th,
-  .table td {
-    padding: 8px 12px;
-  }
-  
-  /* Éviter le scroll horizontal sur mobile */
-  .table-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  /* Ajuster les conteneurs pour éviter le débordement */
+  .card { padding: 16px; }
+  .btn { padding: 10px 20px; font-size: 0.9rem; }
+  .table { font-size: 0.9rem; }
+  .table th, .table td { padding: 8px 12px; }
+  .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .container, .main-content {
     padding-left: 15px;
     padding-right: 15px;
@@ -226,36 +217,16 @@ body {
   }
 }
 
-/* Animations */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .fade-in {
-  animation: fadeIn 0.5s ease-out;
+  animation: fadeIn 0.4s ease-out;
 }
 
-/* Scrollbar personnalisée */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--surface-color);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--secondary-color);
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
